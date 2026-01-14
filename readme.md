@@ -10,6 +10,33 @@ It builds on standard HTML and adds features like **variables, conditions, loops
 
 > Below is a simplified overview of the specifications.
 
+-   #### Page ([specification](./specifications/page.md))
+
+    **Definition**:
+    A page represents a routable document in the system and is declared using the `<page>` element with a required `path` attribute. The `path` defines the unique URL or route for the page, **must start with `/`**, and may optionally end with `/`. Each path must be **unique across the system**.  
+    Pages must always be defined at the **root level of the file** and cannot be nested inside other elements. A page typically contains a layout or component structure that defines its content. Parameters can be used in the path using context variables, e.g., `/foo/{@bar}`.
+
+    ```html
+    <page path="">...</page>
+    ```
+
+    **Usage**:
+    A page is used by declaring it at the root of a document with a unique `path`. Inside a page, layouts or components can be included to structure the content.
+
+    ```html
+    <page path="/{@foobar}">
+        <h1>Example page - @foobar</h1>
+    </page>
+    ```
+
+    ```html
+    <page path="/">
+        <layout name="base-layout">
+            <h1>Example page using layout template.</h1>
+        </layout>
+    </page>
+    ```
+
 -   #### Layout ([specification](./specifications/layout.md))
 
     **Definition**:
