@@ -10,6 +10,47 @@ It builds on standard HTML and adds features like **variables, conditions, loops
 
 > Below is a simplified overview of the specifications.
 
+-   #### Layout ([specification](./specifications/layout.md))
+
+    **Definition**:
+    A layout defines the **structural composition** of a document or page. It is declared using the `<layout>` element with a **globally unique `name`** and is responsible **only for structure**, never for behavior or logic. Layouts must always be placed at the root level of the file. Layouts may be applied individually or **nested inside other layouts** to compose more complex structures.  
+    Each layout **must contain exactly one `<render />` element**, which marks the **single rendering point** where nested layouts or final content are inserted. The `<render />` element **cannot receive parameters** and acts purely as a placeholder for child content. Layouts do **not accept variables or functions** and do not maintain state; their role is solely to define the hierarchical arrangement of components and nested layouts.  
+    **Note:** When use nested inside other layouts, the nested layout must be existent.
+
+    ```html
+    <layout name="base-layout">...</layout>
+    ```
+
+    **Usage**:
+    A layout is used by placing it in the document or inside another layout. When layouts are nested, rendering flows **from outer layouts to inner layouts**, with each layout rendering its content at its own `<render />` point. This ensures a **clear and predictable structure**: the outermost layout defines the broad skeleton, inner layouts refine sections, and the final content or components are inserted at the deepest `<render />`.
+
+    ```html
+    <layout name="base-layout">
+        <!DOCTYPE html>
+        <head>
+            <title>@foobar()</title>
+            <meta name="description" value="@foobar" />
+        </head>
+        <body>
+            <component name="base-header" />
+            <layout name="base-content-container">
+                <render />
+            </layout>
+            <component name="base-footer" />
+        </body>
+    </layout>
+    ```
+
+    ```html
+    <body>
+        <layout name="base-layout">
+            <layout name="content-layout">
+                <render />
+            </layout>
+        </layout>
+    </body>
+    ```
+
 -   #### Component ([specification](./specifications/component.md))
 
     **Definition**:
