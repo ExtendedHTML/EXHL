@@ -14,7 +14,7 @@ It builds on standard HTML and adds features like **variables, conditions, loops
 
     **Definition**:
     A page represents a routable document in the system and is declared using the `<page>` element with a required `path` attribute. The `path` defines the unique URL or route for the page, **must start with `/`**, and may optionally end with `/`. Each path must be **unique across the system**.  
-    Pages must always be defined at the **root level of the file** and cannot be nested inside other elements. A page typically contains a layout or component structure that defines its content. Parameters can be used in the path using context variables, e.g., `/foo/{@bar}`.
+    Pages must always be defined at the **root level of the file** and cannot be nested inside other elements. A page typically contains a layout or component structure that defines its content. Parameters can be used in the path using context variables, e.g., `/foo/{bar}`.
 
     ```html
     <page path="">...</page>
@@ -24,8 +24,8 @@ It builds on standard HTML and adds features like **variables, conditions, loops
     A page is used by declaring it at the root of a document with a unique `path`. Inside a page, layouts or components can be included to structure the content.
 
     ```html
-    <page path="/{@foobar}">
-        <h1>Example page - @foobar</h1>
+    <page path="/{foobar}">
+        <h1>Example page - <value name="foobar" /></h1>
     </page>
     ```
 
@@ -55,8 +55,8 @@ It builds on standard HTML and adds features like **variables, conditions, loops
     <layout name="base-layout">
         <!DOCTYPE html>
         <head>
-            <title>@foobar()</title>
-            <meta name="description" value="@foobar" />
+            <title><value name="foobar()"/></title>
+            <meta name="description" :value="foobar" />
         </head>
         <body>
             <component name="base-header" />
@@ -106,11 +106,11 @@ It builds on standard HTML and adds features like **variables, conditions, loops
     ```
 
     ```html
-    <component name="foobar" @foo()="@foobar()" />
+    <component name="foobar" value:foo="foobar()" />
     ```
 
     ```html
-    <component name="foobar" @a="foo bar" @b="@variable" @c="function()" />
+    <component name="foobar" value:a="foo bar" value:b="variable" value:c="function()" />
     ```
 
 -   #### Loop ([specification](./specifications/loop.md))
@@ -124,35 +124,35 @@ It builds on standard HTML and adds features like **variables, conditions, loops
 
     The loop use attributes to get context values and to define operation conditions.
 
-    -   **in:**
+    -   **value:in:**
         The source to iterate over. Can be: a literal string (iterates over characters), a variable (array or string), or the result of an iterative function. Functions can be called with parameters if applicable.
-    -   **as:**
+    -   **value:as:**
         Defines the name of the loop variable representing the current iteration context. Optional; if omitted, the value is anonymous.
-    -   **min:**
+    -   **value:min:**
         Minimum number of iterations required. If not met, the loop result won't be rendered.
-    -   **max:**
+    -   **value:max:**
         Maximum number of iterations allowed. When reached, the loop stops.
-    -   **index:**
+    -   **value:index:**
         The current iteration index, starting at zero.
-    -   **even:**
+    -   **value:even:**
         Indicates if the current index is even; can be used in styling conditions.
-    -   **odd:**
+    -   **value:odd:**
         Indicates if the current index is odd; can be used in styling conditions.
 
     ```html
-    <loop in="@range(0,100)" as="@value">...</loop>
+    <loop value:in="range(0,100)" value:as="value">...</loop>
     ```
 
     ```html
-    <loop in="@foobar" as="@item" min="1">...</loop>
+    <loop value:in="foobar" value:as="item" value:min="1">...</loop>
     ```
 
     ```html
-    <loop in="@foobar()" as="@item" max="@foobar">...</loop>
+    <loop value:in="foobar()" value:as="item" value:max="foobar">...</loop>
     ```
 
     ```html
-    <loop in="hello world" as="@char" min="1" max="100" index="@i" even="@even" odd="@odd">...</loop>
+    <loop value:in="hello world" value:as="char" value:min="1" value:max="100" value:index="i" value:even="even" value:odd="odd">...</loop>
     ```
 
     **Usage**:
@@ -161,19 +161,19 @@ It builds on standard HTML and adds features like **variables, conditions, loops
     **Note:** When "in" attribute is empty or contain null value, the loop will be ignored.
 
     ```html
-    <loop in="@range(0,100)" as="@value" min="1" max="100">
-        <h1>Number @value (Index: @index)</h1>
+    <loop value:in="range(0,100)" value:as="value" value:min="1" value:max="100">
+        <h1>Number <value name="value" /> (Index: <value name="index" />)</h1>
     </loop>
     ```
 
     ```html
-    <loop in="hello world" as="@char">
-        <h1>Character: @char</h1>
+    <loop value:in="hello world" value:as="char">
+        <h1>Character: <value name="char" /></h1>
     </loop>
     ```
 
     ```html
-    <loop in="@items" as="@item">
-        <h1>@item.name</h1>
+    <loop value:in="items" value:as="item">
+        <h1><value name="item.name" /></h1>
     </loop>
     ```
